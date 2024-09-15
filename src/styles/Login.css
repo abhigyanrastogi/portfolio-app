@@ -1,0 +1,42 @@
+.Login {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+}
+.Login__container {
+    width: 70vh;
+    height: 50vh;
+    margin: auto;
+    border-radius: 5vh;
+    background-color: wheat;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.Login__item {
+    margin: auto 10px auto 10px;
+}
+.Login__details {
+    background-color: antiquewhite;
+    padding: 5vh;
+    border-radius: 5vh;
+}
+.Login__form {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.Login__form__item {
+    margin: 5px;
+}
+.Login__form__submitButton, .Login__form__forgotButton {
+    grid-column: 1/3;
+    border-radius: 5px;
+    padding: 5px
+}
+.Login__form__submitButton {
+    background-color: #eace73;
+    border: none;
+}
+.Login__form__forgotButton {
+    background-color: #c3ac62;
+    border: none;
+}
