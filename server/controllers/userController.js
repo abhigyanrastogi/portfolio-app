@@ -45,21 +45,21 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @route PATCH /users
 // access Private
 const updateUser = asyncHandler(async (req, res) => {
-    const { _id, username, roles, password } = req.body;
+    const { id, username, roles, password } = req.body;
 
-    if(!_id || !username || !password || !Array.isArray(roles) || !roles.length) {
+    if(!id || !username || !password || !Array.isArray(roles) || !roles.length) {
         return res.status(400).json({ message: "Need id, username, password and roles as array of string" });
     }
 
-    const user = await User.findById(_id).exec();
+    const user = await User.findById(id).exec();
 
     if(!user) {
         return res.status(400).json({ message: "No user found" });
     }
 
-    const duplicateUsername = await User.findOne({ username }).lean().exec();
+    const duplicateUsername = await User.findOne({ username }).exec();
     
-    if(duplicateUsername && duplicateUsername._id != _id) {
+    if(duplicateUsername && duplicateUsername.id !== id) {
         return res.status(400).json({ message: `Duplicate username: ${username} found!` });
     }
 
@@ -73,7 +73,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.hashedpwd = await bcrypt.hash(password, 10);
     user.roles = roles;
 
-    const updatedUser = await user.updateOne();
+    const updatedUser = await user.save();
 
     res.status(200).json({ message: `Updated user ${username}` });
 });
@@ -82,9 +82,9 @@ const updateUser = asyncHandler(async (req, res) => {
 // @route DELETE /users
 // access Private
 const deleteUser = asyncHandler(async (req, res) => {
-    const { _id } = req.body;
+    const { id } = req.body;
 
-    const user = await User.findById(_id).exec();
+    const user = await User.findById(id).exec();
 
     if(!user) {
         return res.status(400).json({ message: "User doesnt exist" });
