@@ -7,5 +7,7 @@ router.route('/')
     .post(userController.createNewUser)
     .patch(userController.updateUser)
     .delete(userController.deleteUser)
+    .put(userController.verifyUser)
+    .options(userController.preflightResponse)
 
 module.exports = router

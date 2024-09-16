@@ -1,7 +1,25 @@
 import React from 'react'
 import '../styles/Login.css'
+// import { parseJSON } from 'date-fns';
 
 const Login = () => {
+
+    const onLoginFormSubmit = (event) => {
+        event.preventDefault();
+        const xhr = new XMLHttpRequest();
+        xhr.open("PUT", "http://localhost:3501/users");
+        xhr.setRequestHeader('Content-type', 'application/json');
+        const userAuthObject = {
+            "username": event.target.username.value,
+            "password": event.target.password.value
+        }
+        console.log(JSON.stringify(userAuthObject));
+        xhr.send(JSON.stringify(userAuthObject));
+        xhr.onreadystatechange = (event) => {
+            console.log(xhr.response);
+        }
+    } 
+
   return (
     <div className='Login'>
       <div className='Login__container'>
@@ -11,7 +29,7 @@ const Login = () => {
         <div className='Login__details Login__item'>
             <form 
                 className='Login__form'
-                action='submit'
+                onSubmit={(event) => onLoginFormSubmit(event)}
                 method='GET'
             >
                 <label

@@ -4,7 +4,8 @@
   - [ ] Login
     - [X] Login frontpage
     - [ ] User database
-    - [ ] Authentication
+    - [ ] Registration
+    - [X] Authentication
     - [ ] Authorization
     - [ ] Admin controls
     - [ ] Google sign in API

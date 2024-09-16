@@ -51,7 +51,7 @@ const updateUser = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "Need id, username, password and roles as array of string" });
     }
 
-    const user = await User.findById(id).exec();
+    const user = await User.findById({_id:id}).exec();
 
     if(!user) {
         return res.status(400).json({ message: "No user found" });
@@ -63,19 +63,20 @@ const updateUser = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: `Duplicate username: ${username} found!` });
     }
 
-    // const hashedpwd = await bcrypt.hash(password, 10);
-
     const exisitingRoles = user.roles
-    if(bcrypt.compareSync(password, user.hashedpwd) && JSON.stringify(exisitingRoles) === JSON.stringify(roles)) {
-        return res.status(400).json({ message: `No change for ${username}!` });
+
+    if(bcrypt.compareSync(password, user.hashedpwd) && JSON.stringify(exisitingRoles) === JSON.stringify(roles) && username === user.username) {
+        return res.status(400).json({ message: `No change for ${user.username}!` });
     }
+
     user.username = username;
     user.hashedpwd = await bcrypt.hash(password, 10);
     user.roles = roles;
 
     const updatedUser = await user.save();
 
-    res.status(200).json({ message: `Updated user ${username}` });
+    console.log(updatedUser);
+    res.status(200).json({ message: `Updated user ${user.username}` });
 });
 
 // @desc delete user
@@ -92,14 +93,52 @@ const deleteUser = asyncHandler(async (req, res) => {
 
     const reply = `User ${user.username} deleted`;
 
-    const deleteUser = await user.deletOne();
+    const deleteUser = await user.deleteOne();
 
     return res.status(200).json({ message: reply});
 });
+
+// @desc verify user
+// @route PUT /users
+// access Public
+const verifyUser = asyncHandler(async (req, res) => {
+    const { username, password } = req.body;
+
+    if(!username || !password) {
+        return res.status(400).json({ message: `Need ${username?"":"Username"} ${password?"":"and Password"}` });
+    }
+
+    const user = await User.findOne({ "username" : username }).exec();
+
+    if(!user) {
+        return res.status(400).json({ message: "Username not found" });
+    }
+
+    return res.status(200).json({ message: `${bcrypt.compareSync(password, user.hashedpwd)?"Authenticated":"Denied"}` });
+});
+
+// @desc handle preflight request
+// @route OPTIONS /users
+// access Public
+const preflightResponse = asyncHandler(async (req, res) => {
+    const req_headers = req.headers['access-control-allow-headers'];
+    const req_methods = req.headers['access-control-allow-methods'];
+    const req_origin = req.headers['origin'];
+
+    res.set('Access-Control-Allow-Origin', req_origin);
+    res.set('Access-Control-Allow-Methods', req_methods);
+    res.set('Access-Control-Allow-Headers', req_headers);
+
+    return res.status(200);
+});
+
+
 
 module.exports = {
     getAllUsers,
     createNewUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    verifyUser,
+    preflightResponse
 }
