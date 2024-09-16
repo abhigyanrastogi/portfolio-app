@@ -1,5 +1,7 @@
 **Design Strategy**
 
+- [ ] Front page
+  - [ ] Redesign theme (more cybersecurity-y)
 - [ ] Login
   - [X] Login frontpage
   - [X] User database
