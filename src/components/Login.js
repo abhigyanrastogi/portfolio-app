@@ -34,7 +34,7 @@ const Login = () => {
                 ></input>
                 <input
                     className='Login__form__submitButton Login__form__item'
-                    type='button'
+                    type='submit'
                     value='Log in'
                 ></input>
                 <input

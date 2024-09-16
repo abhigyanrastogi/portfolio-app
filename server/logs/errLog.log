@@ -1,0 +1,7 @@
+20240916	06:31:31	a162feb3-f9b4-453b-b839-ce2ebd2288c8	TypeError: User.find is not a function	GET	$/users	undefined
+20240916	06:31:45	77441a41-18b3-45b0-8a45-13858d072776	TypeError: User.find is not a function	GET	$/users	undefined
+20240916	06:33:51	39b96de2-d3a7-47ba-8c88-af7995a5f96d	TypeError: User.find is not a function	GET	$/users	undefined
+20240916	06:34:15	7adabcfb-ce52-40b8-9dcc-cf5e5c434e61	TypeError: User.find is not a function	GET	$/users	undefined
+20240916	06:34:52	30574ab8-ac20-42b5-8875-5bdc598dc22d	TypeError: User.findOne is not a function	GET	$/users	undefined
+20240916	06:36:27	afd2d757-4f5c-4df1-b66c-abf2b0b8f6c3	TypeError: User.findOne is not a function	GET	$/users	undefined
+20240916	06:38:51	c54199a8-2569-4fc5-8fbd-13fed0f109e0	TypeError: User.findOne is not a function	GET	$/users	undefined
