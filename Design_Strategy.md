@@ -1,20 +1,27 @@
 **Design Strategy**
 
-- [ ] Design
-  - [ ] Login
-    - [X] Login frontpage
-    - [ ] User database
-    - [ ] Registration
-    - [X] Authentication
-    - [ ] Authorization
-    - [ ] Admin controls
-    - [ ] Google sign in API
-  - [ ] Posts
-    - [ ] Comments
-    - [ ] Views counter
-    - [ ] Content
-      - [ ] Text
-      - [ ] Image
-      - [ ] Video
-    - [ ] Author
-  - [ ] Add these markdown files to website
+- [ ] Login
+  - [X] Login frontpage
+  - [X] User database
+  - [ ] Registration
+  - [X] Authentication
+  - [ ] Authorization
+  - [ ] Admin controls
+  - [ ] Google sign in API
+- [ ] Posts
+  - [ ] Comments
+  - [ ] Views counter
+  - [ ] Content
+    - [ ] Text
+    - [ ] Image
+    - [ ] Video
+  - [ ] Author
+- [ ] Add these markdown files to website
+- [ ] Project Showcase
+  - [ ] Interactive web tool for Users
+  - [ ] Animated/Video demonstration for Guests
+- [ ] Cybersecurity Showcase
+  - [ ] Representation of Diffie Hellman
+  - [ ] RSA implementation
+  - [ ] Vulnerability Demonstrations
+  - [ ] News Articles (API ?)

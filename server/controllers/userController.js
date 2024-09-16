@@ -105,7 +105,7 @@ const verifyUser = asyncHandler(async (req, res) => {
     const { username, password } = req.body;
 
     if(!username || !password) {
-        return res.status(400).json({ message: `Need ${username?"":"Username"} ${password?"":"and Password"}` });
+        return res.status(400).json({ message: `Need ${username?"":"Username"}${username&&password?"":" and "}${password?"":"Password"}` });
     }
 
     const user = await User.findOne({ "username" : username }).exec();

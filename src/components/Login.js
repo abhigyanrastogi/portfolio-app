@@ -1,70 +1,41 @@
 import React from 'react'
 import '../styles/Login.css'
-// import { parseJSON } from 'date-fns';
+import UserLoginForm from './UserLoginForm'
+import GuestLoginForm from './GuestLoginForm';
 
 const Login = () => {
+    const [ showPage, setShowPage ] = React.useState('LoginPage');
 
-    const onLoginFormSubmit = (event) => {
-        event.preventDefault();
-        const xhr = new XMLHttpRequest();
-        xhr.open("PUT", "http://localhost:3501/users");
-        xhr.setRequestHeader('Content-type', 'application/json');
-        const userAuthObject = {
-            "username": event.target.username.value,
-            "password": event.target.password.value
-        }
-        console.log(JSON.stringify(userAuthObject));
-        xhr.send(JSON.stringify(userAuthObject));
-        xhr.onreadystatechange = (event) => {
-            console.log(xhr.response);
-        }
-    } 
-
-  return (
-    <div className='Login'>
-      <div className='Login__container'>
-        <div className='Login__welcome Login__item'>
-            <h1>Welcome!</h1>
+    return (
+        <div className='Login'>
+            <div className='Login__container'>
+                <div className='Login__welcome Login__item'>
+                    <h1>Welcome!</h1>
+                </div>
+                <div className='Login__details Login__item'>
+                    <p className='Login__Guest-Or-User p'>Enter the website as :</p>
+                    {showPage === 'LoginPage' && <>
+                        <button 
+                            className='Login__Guest-or-User Login__Guest-Button'
+                            onClick={() => setShowPage('GuestLoginPage')}
+                        >Guest</button>
+                        <button 
+                            className='Login__Guest-or-User Login__User-Button'
+                            onClick={() => setShowPage('UserLoginPage')}
+                        >User</button>
+                        </>
+                    }
+                    { showPage === 'GuestLoginPage' && <GuestLoginForm back={setShowPage}/> }
+                    { showPage === 'UserLoginPage' && <UserLoginForm back={setShowPage}/> }
+                    { showPage !== 'LoginPage' && <button 
+                            className='Login__Guest-or-User Login__Back-Button'
+                            onClick={() => { setShowPage('LoginPage') }}
+                        >Back</button>
+                    }
+                </div>
+            </div>
         </div>
-        <div className='Login__details Login__item'>
-            <form 
-                className='Login__form'
-                onSubmit={(event) => onLoginFormSubmit(event)}
-                method='GET'
-            >
-                <label
-                    className='Login__form__label Login__form__item'
-                    name='username'
-                >Username : </label>
-                <input
-                    className='Login__form__textInput Login__form__item'
-                    name='username'
-                    type='text'
-                ></input>
-                <label
-                    className='Login__form__label Login__form__item'
-                    name='password'
-                >Password : </label>
-                <input
-                    className='Login__form__textInput Login__form__item'
-                    name='password'
-                    type='password'
-                ></input>
-                <input
-                    className='Login__form__submitButton Login__form__item'
-                    type='submit'
-                    value='Log in'
-                ></input>
-                <input
-                    className='Login__form__forgotButton Login__form__item'
-                    type='button'
-                    value='Forgot password'
-                ></input>
-            </form>
-        </div>
-      </div>
-    </div>
-  )
+    );
 }
 
 export default Login
