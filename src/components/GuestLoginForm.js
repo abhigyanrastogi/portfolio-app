@@ -9,14 +9,18 @@ const GuestLoginForm = () => {
         xhr.setRequestHeader('Content-type', 'application/json');
         const userAuthObject = {
             "username": event.target.username.value,
-            "password": event.target.password.value,
             "role": ["Guest"]
         }
         console.log(JSON.stringify(userAuthObject));
         xhr.send(JSON.stringify(userAuthObject));
-        xhr.onreadystatechange = (event) => {
-            if(xhr.status === 200)
-                alert(xhr.response);
+        xhr.onload = (event) => {
+            const authStatus = JSON.parse(xhr.response).message;
+            if(authStatus === "Authenticated") {
+                //procedd to dash
+                alert(authStatus);
+            } else {
+                alert(authStatus);
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Form = ({ back }) => {
+const Form = () => {
 
     const onLoginFormSubmit = (event) => {
         event.preventDefault();
@@ -16,7 +16,8 @@ const Form = ({ back }) => {
         xhr.onload = (event) => {
             const authStatus = JSON.parse(xhr.response).message;
             if(authStatus === "Authenticated") {
-                back('LoginPage')
+                //procedd to dash
+                alert(authStatus);
             } else {
                 alert(authStatus);
             }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../styles/Login.css'
 import UserLoginForm from './UserLoginForm'
 import GuestLoginForm from './GuestLoginForm';
@@ -8,32 +8,43 @@ const Login = () => {
 
     return (
         <div className='Login'>
-            <div className='Login__container'>
-                <div className='Login__welcome Login__item'>
-                    <h1>Welcome!</h1>
+        <div className='Login__container'>
+        <div className='Login__welcome Login__item'>
+            <h1>Welcome!</h1>
+        </div>
+        <div className={
+                showPage === 'LoginPage' ? 'Login__details Login__item Login__details--Animate' :
+                showPage === 'GuestLoginPage' ? 'Login__details Login__item GuestLoginPage--Animate' :
+                showPage === 'UserLoginPage' ? 'Login__details Login__item UserLoginPage--Animate' : "Login__details Login__item"
+            }>
+        {/* <div className='Animate'> */}
+
+            {showPage === 'LoginPage' && <div className='Login__Guest-Or-User'>
+                <p>Enter the website as :</p>
+                <button 
+                    className='Login__Button --Guest'
+                    onClick={() => setShowPage('GuestLoginPage')    }
+                >Guest</button>
+                <button 
+                    className='Login__Button --User'
+                    onClick={() => setShowPage('UserLoginPage')}
+                >User</button>
                 </div>
-                <div className='Login__details Login__item'>
-                    <p className='Login__Guest-Or-User p'>Enter the website as :</p>
-                    {showPage === 'LoginPage' && <>
-                        <button 
-                            className='Login__Guest-or-User Login__Guest-Button'
-                            onClick={() => setShowPage('GuestLoginPage')}
-                        >Guest</button>
-                        <button 
-                            className='Login__Guest-or-User Login__User-Button'
-                            onClick={() => setShowPage('UserLoginPage')}
-                        >User</button>
-                        </>
-                    }
-                    { showPage === 'GuestLoginPage' && <GuestLoginForm back={setShowPage}/> }
-                    { showPage === 'UserLoginPage' && <UserLoginForm back={setShowPage}/> }
-                    { showPage !== 'LoginPage' && <button 
-                            className='Login__Guest-or-User Login__Back-Button'
-                            onClick={() => { setShowPage('LoginPage') }}
-                        >Back</button>
-                    }
-                </div>
-            </div>
+            }
+
+            { showPage === 'GuestLoginPage' && <GuestLoginForm/> }
+
+            { showPage === 'UserLoginPage' && <UserLoginForm/> }
+
+            { showPage !== 'LoginPage' && <button 
+                    className='Login__Button --Back'
+                    onClick={() => { setShowPage('LoginPage') }}
+                >Back</button>
+            }
+            
+        {/* </div> */}
+        </div>
+        </div>
         </div>
     );
 }

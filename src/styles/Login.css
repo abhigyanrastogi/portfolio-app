@@ -7,18 +7,22 @@
     width: 70vh;
     height: 50vh;
     margin: auto;
+    padding: 10px;
     border-radius: 5vh;
     background-color: wheat;
     display: grid;
     grid-template-columns: auto auto;
 }
 .Login__item {
-    margin: auto 10px auto 10px;
+    margin: auto;
 }
 .Login__details {
     background-color: antiquewhite;
     padding: 5vh;
     border-radius: 5vh;
+}
+.Login__welcome {
+    text-align: center;
 }
 .Login__form {
     display: grid;
@@ -39,4 +43,53 @@
 .Login__form__forgotButton {
     background-color: #c3ac62;
     border: none;
+}
+.Login__Guest-Or-User {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto auto;
+}
+.Login__Guest-Or-User p {
+    grid-column: 1/3;
+}
+.Login__Button.--Guest {
+    background-color: #eeddcc;
+}
+.Login__Button.--User {
+    background-color: #aa9977;
+}
+.Login__Button.--Back {
+    background-color: #99ccff;
+}
+.Login__Button {
+    border-radius: 5px;
+    padding: 5px;
+    border: none;
+}
+
+.Login__details--Animate {
+    animation: 0.5s linear Login__details--expand;
+}
+@keyframes Login__details--expand{
+    from {
+        padding: 1vh;
+    }
+    to {
+        padding: 5vh;
+    }
+}
+@keyframes Login__details--expand--2{
+    from {
+        padding: 1vh;
+    }
+    to {
+        padding: 5vh;
+    }
+}
+
+.GuestLoginPage--Animate {
+    animation: 0.5s linear Login__details--expand--2;
+}
+.UserLoginPage--Animate {
+    animation: 0.5s linear Login__details--expand--2;
 }
