@@ -6,7 +6,7 @@
 - [ ] Login
   - [X] Login frontpage
   - [X] User database
-  - [ ] Registration
+  - [X] Registration
   - [X] Authentication
   - [ ] Authorization
     - [ ] admin

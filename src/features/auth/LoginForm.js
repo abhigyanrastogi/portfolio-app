@@ -1,13 +1,16 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import { LoginEvent } from './scripts/LoginEvent'
 import ForgotForm from './ForgotForm';
 
 const LoginForm = ({ setShowForm }) => {
     const [ showForgotForm, setShowForgotForm ] = React.useState(false);
+    const navigate = useNavigate();
     return (
         <>
             {showForgotForm && <ForgotForm setShowForgotForm={setShowForgotForm}/>}
-            {!showForgotForm && <form 
+            {!showForgotForm && <>
+            <form 
                 className='Login__form' 
                 onSubmit={(e)=>{e.preventDefault()}}>
                 <label
@@ -32,7 +35,7 @@ const LoginForm = ({ setShowForm }) => {
                     className='Login__form__loginButton Login__form__item'
                     type='submit'
                     name='submit'
-                    onClick={(event)=>{LoginEvent(event)}}
+                    onClick={(event)=>LoginEvent(event, navigate)}
                     value='Log in'
                 ></input>
                 <button
@@ -40,11 +43,12 @@ const LoginForm = ({ setShowForm }) => {
                     onClick={()=>setShowForgotForm(true)}
                 >Forgot Password</button>
             </form>
-            }
             <button 
             className='Login__Button --Back' 
             onClick={()=>setShowForm('UserOptions')}
             >Back</button>
+            </>
+            }
         </>
     )
 }

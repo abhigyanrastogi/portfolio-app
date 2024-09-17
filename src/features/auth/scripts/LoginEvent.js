@@ -1,6 +1,6 @@
 const USER_SERVER_ADDR = "http://localhost:3501/users";
 
-const LoginEvent = (event) => {
+const LoginEvent = (event, navigate) => {
     const xhr = new XMLHttpRequest();
     const userObject = { 
         username: event.target.form.username.value,
@@ -20,7 +20,8 @@ const LoginEvent = (event) => {
     xhr.onload = () => {
         const res = JSON.parse(xhr.response);
         alert(res.message);
-        // go to dash
+        if(res.message === 'Authenticated')
+            navigate('/dash');
     };
 }
 const RegisterEvent = (event) => {
