@@ -1,6 +1,7 @@
 **Design Strategy**
 
 - [ ] Front page
+  - [ ] Welcome page at index of '/'
   - [ ] Redesign theme (more cybersecurity-y)
 - [ ] Login
   - [X] Login frontpage
@@ -8,8 +9,20 @@
   - [ ] Registration
   - [X] Authentication
   - [ ] Authorization
-  - [ ] Admin controls
+    - [ ] admin
+      - [ ] user management
+      - [ ] content management
+    - [ ] user
+      - [ ] profile management
+      - [ ] commenting 
+      - [ ] project interaction
+    - [ ] guest 
+      - [ ] user registration 
+      - [ ] viewing project demos
+      - [ ] viewing comments 
   - [ ] Google sign in API
+- [ ] Dashboard
+  - [ ] 
 - [ ] Posts
   - [ ] Comments
   - [ ] Views counter
