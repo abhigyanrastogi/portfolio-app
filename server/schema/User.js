@@ -6,8 +6,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     hashedpwd: {
-        type: String,
-        required: true
+        type: String
     },
     roles: [{
         type: String,

@@ -8,9 +8,9 @@ const salt = 10;
 const getAllUsers = asyncHandler(async (req, res) => {
     const users = await User.find().select('-hashedpwd').lean();
     if(!users?.length) {
-        return res.status(400).json({ message: "No Users Found" });
+        return res.status(200).json({ message: "No Users Found" });
     }
-    return res.status(200).json(users);
+    return res.status(200).json({ message:"User list attached", data:users});
 });
 
 // @desc create new user
@@ -18,26 +18,44 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // access Public
 const createNewUser = asyncHandler(async (req, res) => {
     const { username, password, roles } = req.body;
-    if(!username || !password || !Array.isArray(roles) || !roles.length) {
-        return res.status(400).json({ message: "Need username, password and roles as array of string" });
+    if(!Array.isArray(roles) || !roles.length) {
+        return res.status(200).json({ message: "Need Roles as array of string" });
+    }
+    if(!username) {
+        return res.status(200).json({ message: "Need username" });
     }
 
     const duplicate = await User.findOne({ username }).lean().exec();
 
     if(duplicate) {
-        return res.status(400).json({ message: "Duplicate User found" });
+        return res.status(200).json({ message: "Duplicate User found" });
     }
 
-    const hashedpwd = await bcrypt.hash(password, salt);
+    let userObject = null;
+    let userRole = roles[0]; // PROBABLE BUG
 
-    const userObject = { username, "hashedpwd":hashedpwd, roles };
+    //User needs password
+    if(userRole === 'User') {
+        if(!password) {
+            return res.status(200).json({ message: "Need password" });
+        }
+        
+        const hashedpwd = await bcrypt.hash(password, salt);
+        
+        userObject = { username, "hashedpwd":hashedpwd, roles };
+    }
+
+    //Guest doesnt need password
+    if(userRole === 'Guest') {
+        userObject = { username, roles };
+    }
 
     const user = await User.create(userObject);
 
     if(user) {
         return res.status(200).json({ message: `Created new user: ${username}` });
     } else {
-        return res.status(400).json({ mesage: "Error creating user" });
+        return res.status(200).json({ mesage: "Error creating user" });
     }
 });
 
@@ -48,25 +66,25 @@ const updateUser = asyncHandler(async (req, res) => {
     const { id, username, roles, password } = req.body;
 
     if(!id || !username || !password || !Array.isArray(roles) || !roles.length) {
-        return res.status(400).json({ message: "Need id, username, password and roles as array of string" });
+        return res.status(200).json({ message: "Need id, username, password and roles as array of string" });
     }
 
     const user = await User.findById({_id:id}).exec();
 
     if(!user) {
-        return res.status(400).json({ message: "No user found" });
+        return res.status(200).json({ message: "No user found" });
     }
 
     const duplicateUsername = await User.findOne({ username }).exec();
     
     if(duplicateUsername && duplicateUsername.id !== id) {
-        return res.status(400).json({ message: `Duplicate username: ${username} found!` });
+        return res.status(200).json({ message: `Duplicate username: ${username} found!` });
     }
 
     const exisitingRoles = user.roles
 
     if(bcrypt.compareSync(password, user.hashedpwd) && JSON.stringify(exisitingRoles) === JSON.stringify(roles) && username === user.username) {
-        return res.status(400).json({ message: `No change for ${user.username}!` });
+        return res.status(200).json({ message: `No change for ${user.username}!` });
     }
 
     user.username = username;
@@ -88,7 +106,7 @@ const deleteUser = asyncHandler(async (req, res) => {
     const user = await User.findById(id).exec();
 
     if(!user) {
-        return res.status(400).json({ message: "User doesnt exist" });
+        return res.status(200).json({ message: "User doesnt exist" });
     }
 
     const reply = `User ${user.username} deleted`;
@@ -105,13 +123,13 @@ const verifyUser = asyncHandler(async (req, res) => {
     const { username, password } = req.body;
 
     if(!username || !password) {
-        return res.status(400).json({ message: `Need ${username?"":"Username"}${!username&&!password?" and ":""}${password?"":"Password"}` });
+        return res.status(200).json({ message: `Need: ${username?"":"Username "}${password?"":"Password"}` });
     }
 
     const user = await User.findOne({ "username" : username }).exec();
 
     if(!user) {
-        return res.status(400).json({ message: "Username not found" });
+        return res.status(200).json({ message: "Username not found" });
     }
 
     return res.status(200).json({ message: `${bcrypt.compareSync(password, user.hashedpwd)?"Authenticated":"Denied"}` });

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import '../styles/Login.css'
+import '../../styles/Login.css'
 import UserLoginForm from './UserLoginForm'
 import GuestLoginForm from './GuestLoginForm';
 
@@ -17,7 +17,6 @@ const Login = () => {
                 showPage === 'GuestLoginPage' ? 'Login__details Login__item GuestLoginPage--Animate' :
                 showPage === 'UserLoginPage' ? 'Login__details Login__item UserLoginPage--Animate' : "Login__details Login__item"
             }>
-        {/* <div className='Animate'> */}
 
             {showPage === 'LoginPage' && <div className='Login__Guest-Or-User'>
                 <p>Enter the website as :</p>
@@ -32,15 +31,9 @@ const Login = () => {
                 </div>
             }
 
-            { showPage === 'GuestLoginPage' && <GuestLoginForm/> }
+            { showPage === 'GuestLoginPage' && <GuestLoginForm setShowPage={setShowPage}/> }
 
-            { showPage === 'UserLoginPage' && <UserLoginForm/> }
-
-            { showPage !== 'LoginPage' && <button 
-                    className='Login__Button --Back'
-                    onClick={() => { setShowPage('LoginPage') }}
-                >Back</button>
-            }
+            { showPage === 'UserLoginPage' && <UserLoginForm setShowPage={setShowPage}/> }
             
         {/* </div> */}
         </div>

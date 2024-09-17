@@ -1,22 +1,22 @@
 import React from 'react'
 
-const GuestLoginForm = () => {
+const GuestLoginForm = ({ setShowPage }) => {
 
     const onLoginFormSubmit = (event) => {
         event.preventDefault();
         const xhr = new XMLHttpRequest();
-        xhr.open("PUT", "http://localhost:3501/users");
+        xhr.open("POST", "http://localhost:3501/users");
         xhr.setRequestHeader('Content-type', 'application/json');
         const userAuthObject = {
             "username": event.target.username.value,
-            "role": ["Guest"]
+            "roles": ["Guest"]
         }
         console.log(JSON.stringify(userAuthObject));
         xhr.send(JSON.stringify(userAuthObject));
         xhr.onload = (event) => {
             const authStatus = JSON.parse(xhr.response).message;
             if(authStatus === "Authenticated") {
-                //procedd to dash
+                //proceed to GUEST DASH
                 alert(authStatus);
             } else {
                 alert(authStatus);
@@ -25,7 +25,8 @@ const GuestLoginForm = () => {
     }
 
   return (
-    <form 
+    <>
+        <form 
             className='Login__form'
             onSubmit={(event) => onLoginFormSubmit(event)}
         >
@@ -39,11 +40,16 @@ const GuestLoginForm = () => {
                 type='text'
             ></input>
             <input
-                className='Login__form__submitButton Login__form__item'
+                className='Login__form__loginButton Login__form__item'
                 type='submit'
                 value='Log in'
             ></input>
         </form>
+        <button 
+            className='Login__Button --Back' 
+            onClick={()=>setShowPage('LoginPage')}
+        >Back</button>
+    </>
   )
 }
 
