@@ -2,15 +2,28 @@ const User = require('../schema/User');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const salt = 10;
+
+const makeResponse = (res, message, status, data=null) => {
+    if(data) {
+        res.json({
+            data: data
+        });
+    }
+    return res.status(200).json({ 
+        message: message,
+        status: `${status?'Accepted':'Denied'}`
+    })
+}
+
 // @desc get all users
 // @route GET /users
 // access Private
 const getAllUsers = asyncHandler(async (req, res) => {
     const users = await User.find().select('-hashedpwd').lean();
     if(!users?.length) {
-        return res.status(200).json({ message: "No Users Found" });
+        return makeResponse(res, "No Users Found", false);
     }
-    return res.status(200).json({ message:"User list attached", data:users});
+    return makeResponse(res, "User list attached", true, users);
 });
 
 // @desc create new user
@@ -19,16 +32,16 @@ const getAllUsers = asyncHandler(async (req, res) => {
 const createNewUser = asyncHandler(async (req, res) => {
     const { username, password, roles } = req.body;
     if(!Array.isArray(roles) || !roles.length) {
-        return res.status(200).json({ message: "Need Roles as array of string" });
+        return makeResponse(res, "Need Roles as array of string", false);
     }
     if(!username) {
-        return res.status(200).json({ message: "Need username" });
+        return makeResponse(res, "Need username", false);
     }
 
     const duplicate = await User.findOne({ username }).lean().exec();
 
     if(duplicate) {
-        return res.status(200).json({ message: "Duplicate User found" });
+        return makeResponse(res, "Duplicate User found", false);
     }
 
     let userObject = null;
@@ -37,7 +50,7 @@ const createNewUser = asyncHandler(async (req, res) => {
     //User needs password
     if(userRole === 'User') {
         if(!password) {
-            return res.status(200).json({ message: "Need password" });
+            return makeResponse(res, "Need password", false);
         }
         
         const hashedpwd = await bcrypt.hash(password, salt);
@@ -53,9 +66,9 @@ const createNewUser = asyncHandler(async (req, res) => {
     const user = await User.create(userObject);
 
     if(user) {
-        return res.status(200).json({ message: `Created new user: ${username}` });
+        return makeResponse(res, `Created new user: ${username}`, true);
     } else {
-        return res.status(200).json({ mesage: "Error creating user" });
+        return makeResponse(res, "Error creating user", false);
     }
 });
 
@@ -66,25 +79,25 @@ const updateUser = asyncHandler(async (req, res) => {
     const { id, username, roles, password } = req.body;
 
     if(!id || !username || !password || !Array.isArray(roles) || !roles.length) {
-        return res.status(200).json({ message: "Need id, username, password and roles as array of string" });
+        return makeResponse(res, "Need id, username, password and roles as array of string", false);
     }
 
     const user = await User.findById({_id:id}).exec();
 
     if(!user) {
-        return res.status(200).json({ message: "No user found" });
+        return makeResponse(res, "No user found");
     }
 
     const duplicateUsername = await User.findOne({ username }).exec();
     
     if(duplicateUsername && duplicateUsername.id !== id) {
-        return res.status(200).json({ message: `Duplicate username: ${username} found!` });
+        return makeResponse(res, `Duplicate username: ${username} found!`, false);
     }
 
     const exisitingRoles = user.roles
 
     if(bcrypt.compareSync(password, user.hashedpwd) && JSON.stringify(exisitingRoles) === JSON.stringify(roles) && username === user.username) {
-        return res.status(200).json({ message: `No change for ${user.username}!` });
+        return makeResponse(res, `No change for ${user.username}!`, false);
     }
 
     user.username = username;
@@ -94,7 +107,7 @@ const updateUser = asyncHandler(async (req, res) => {
     const updatedUser = await user.save();
 
     console.log(updatedUser);
-    res.status(200).json({ message: `Updated user ${user.username}` });
+    return makeResponse(res, `Updated user ${user.username}`, true);
 });
 
 // @desc delete user
@@ -106,14 +119,14 @@ const deleteUser = asyncHandler(async (req, res) => {
     const user = await User.findById(id).exec();
 
     if(!user) {
-        return res.status(200).json({ message: "User doesnt exist" });
+        return makeResponse(res, "User doesnt exist", false);
     }
 
     const reply = `User ${user.username} deleted`;
 
     const deleteUser = await user.deleteOne();
 
-    return res.status(200).json({ message: reply});
+    return makeResponse(res, reply, true);
 });
 
 // @desc verify user
@@ -123,16 +136,16 @@ const verifyUser = asyncHandler(async (req, res) => {
     const { username, password } = req.body;
 
     if(!username || !password) {
-        return res.status(200).json({ message: `Need: ${username?"":"Username "}${password?"":"Password"}` });
+        return makeResponse(res, `Need: ${username?"":"Username "}${password?"":"Password"}`, false);
     }
 
     const user = await User.findOne({ "username" : username }).exec();
 
     if(!user) {
-        return res.status(200).json({ message: "Username not found" });
+        return makeResponse(res, "Username not found", false);
     }
 
-    return res.status(200).json({ message: `${bcrypt.compareSync(password, user.hashedpwd)?"Authenticated":"Denied"}` });
+    return makeResponse(res, `${bcrypt.compareSync(password, user.hashedpwd)?"Authenticated":"Denied"}`, true);
 });
 
 // @desc handle preflight request

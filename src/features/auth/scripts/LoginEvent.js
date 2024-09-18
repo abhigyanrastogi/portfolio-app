@@ -20,11 +20,13 @@ const LoginEvent = (event, navigate) => {
     xhr.onload = () => {
         const res = JSON.parse(xhr.response);
         alert(res.message);
-        if(res.message === 'Authenticated')
-            navigate('/dash');
+        if(res.status) {
+            console.log("logging in...");
+            navigate('/dash', { state: { username: userObject.username } });
+        }
     };
 }
-const RegisterEvent = (event) => {
+const RegisterEvent = (event, setShowForm) => {
     const xhr = new XMLHttpRequest();
     const userObject = { 
         username: event.target.form.username.value,
@@ -43,7 +45,8 @@ const RegisterEvent = (event) => {
 
     xhr.onload = () => {
         const res = JSON.parse(xhr.response);
-        alert(res.message);
+        alert(xhr.response);
+        console.log(res.message);
         //go to login page
     };
 }

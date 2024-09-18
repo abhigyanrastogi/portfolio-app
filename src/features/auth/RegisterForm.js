@@ -2,6 +2,7 @@ import React from 'react'
 import { RegisterEvent } from './scripts/LoginEvent'
 
 const RegisterForm = ({ setShowForm }) => {
+    const setShowForm_local = setShowForm;
   return (
     <>
         <form 
@@ -29,7 +30,7 @@ const RegisterForm = ({ setShowForm }) => {
                 className='Login__form__registerButton Login__form__item'
                 type='submit'
                 name='register'
-                onClick={(event)=>{RegisterEvent(event); setShowForm('UserOptions')}}
+                onClick={(event)=>{RegisterEvent(event, setShowForm_local)}}
                 value='Register User'
             ></input>
         </form>
