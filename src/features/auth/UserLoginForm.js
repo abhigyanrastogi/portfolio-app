@@ -4,6 +4,7 @@ import RegisterForm from './RegisterForm';
 
 const UserLoginForm = ({ setShowPage }) => {
     const [ showForm, setShowForm ] = React.useState('UserOptions');
+    // UserOptions, LoginForm, RegisterForm
     return (
         <>
         {showForm === 'UserOptions' &&

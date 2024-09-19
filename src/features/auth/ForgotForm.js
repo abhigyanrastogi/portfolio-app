@@ -32,7 +32,7 @@ const ForgotForm = ({ setShowForgotForm }) => {
                 className='Login__form__forgotButton Login__form__item'
                 type='submit'
                 name='forgot'
-                onClick={(event)=>{ForgotEvent(event)}}
+                onClick={(event)=>{ForgotEvent(event, setShowForgotForm)}}
                 value='Change Password'
             ></input>
         </form>

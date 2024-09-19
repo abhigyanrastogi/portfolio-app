@@ -1,7 +1,7 @@
 **Design Strategy**
 
 - [ ] Front page
-  - [ ] Welcome page at index of '/'
+  - [X] Welcome page at index of '/'
   - [ ] Redesign theme (more cybersecurity-y)
 - [ ] Login
   - [X] Login frontpage
@@ -16,13 +16,19 @@
       - [ ] profile management
       - [ ] commenting 
       - [ ] project interaction
-    - [ ] guest 
+    - [ ] guest
       - [ ] user registration 
       - [ ] viewing project demos
       - [ ] viewing comments 
   - [ ] Google sign in API
 - [ ] Dashboard
-  - [ ] 
+  - [ ] Profile display
+  - [ ] Comment History
+  - [ ] Post History
+  - [ ] Project Interaction saved states
+  - [ ] Search bar
+  - [ ] Browse Projects
+  - [ ] Browse Posts
 - [ ] Posts
   - [ ] Comments
   - [ ] Views counter

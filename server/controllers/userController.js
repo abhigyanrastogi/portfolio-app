@@ -4,15 +4,13 @@ const bcrypt = require('bcrypt');
 const salt = 10;
 
 const makeResponse = (res, message, status, data=null) => {
-    if(data) {
-        res.json({
-            data: data
-        });
-    }
-    return res.status(200).json({ 
+    const payload = {
         message: message,
-        status: `${status?'Accepted':'Denied'}`
-    })
+        status: `${status?'Accepted':'Denied'}`,
+        data: data
+    }
+    res.status(200).json(payload);
+    return res;
 }
 
 // @desc get all users
@@ -37,15 +35,22 @@ const createNewUser = asyncHandler(async (req, res) => {
     if(!username) {
         return makeResponse(res, "Need username", false);
     }
-
-    const duplicate = await User.findOne({ username }).lean().exec();
-
-    if(duplicate) {
-        return makeResponse(res, "Duplicate User found", false);
-    }
-
+    
     let userObject = null;
     let userRole = roles[0]; // PROBABLE BUG
+
+    const duplicate = await User.findOne({ username }).exec();
+    
+    if(duplicate) { 
+        if(duplicate.roles[0] === 'User')
+            return makeResponse(res, "Duplicate User with same username found!", false);
+        else if(duplicate.roles[0] === 'Guest') {
+            if(userRole === 'Guest')
+                return makeResponse(res, "Welcome back! Your account is a guest, please register to protect your username!", true);
+            else if(userRole === 'User')
+                duplicate.deleteOne().exec();
+        }
+    }
 
     //User needs password
     if(userRole === 'User') {
@@ -57,14 +62,14 @@ const createNewUser = asyncHandler(async (req, res) => {
         
         userObject = { username, "hashedpwd":hashedpwd, roles };
     }
-
+    
     //Guest doesnt need password
     if(userRole === 'Guest') {
         userObject = { username, roles };
     }
-
+    
     const user = await User.create(userObject);
-
+    
     if(user) {
         return makeResponse(res, `Created new user: ${username}`, true);
     } else {
@@ -85,7 +90,11 @@ const updateUser = asyncHandler(async (req, res) => {
     const user = await User.findById({_id:id}).exec();
 
     if(!user) {
-        return makeResponse(res, "No user found");
+        return makeResponse(res, "No user found", false);
+    }
+
+    if(user.roles[0] === 'Guest') {
+        return makeResponse(res, "User is a Guest user, register account to change account details", false);
     }
 
     const duplicateUsername = await User.findOne({ username }).exec();
@@ -135,14 +144,22 @@ const deleteUser = asyncHandler(async (req, res) => {
 const verifyUser = asyncHandler(async (req, res) => {
     const { username, password } = req.body;
 
-    if(!username || !password) {
-        return makeResponse(res, `Need: ${username?"":"Username "}${password?"":"Password"}`, false);
+    if(!username) {
+        return makeResponse(res, "Need: Username ", false);
     }
 
     const user = await User.findOne({ "username" : username }).exec();
 
     if(!user) {
         return makeResponse(res, "Username not found", false);
+    }
+
+    if(user.roles[0] === 'Guest') {
+        return makeResponse(res, "Username belongs to a Guest, create an account to log in and claim the username!", false);
+    }
+
+    if(user.roles[0] === 'User' && !password) {
+        return makeResponse(res, "Need Password", false);
     }
 
     return makeResponse(res, `${bcrypt.compareSync(password, user.hashedpwd)?"Authenticated":"Denied"}`, true);

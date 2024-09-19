@@ -1,0 +1,30 @@
+.Welcome_Page {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+    width: 100vw;
+}
+.Welcome_Page :is(header, footer) {
+    margin: 20px;
+}
+.Welcome_Page :is(h1, h2) {
+    width: fit-content;
+    margin: 10px;
+}
+.Welcome_Page footer :is(p, a) {
+    display: block;
+    width: fit-content;
+    margin: auto;
+}
+.Welcome_Content {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-around;
+}
+h3,ul {
+    width: fit-content;
+}
+.Welcome__Used_Web_Tech, .Welcome__Know_Languages, .Welcome__Used_Sec_Tech {
+    height: fit-content;
+    place-self: center;
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/WelcomePage.css';
 import { Link } from 'react-router-dom';
 const WelcomePage = () => {
   return (
@@ -7,7 +8,7 @@ const WelcomePage = () => {
         <h1>Namaste!</h1>
         <h2>I am Abhigyan Chandra Rastogi</h2>
       </header>
-      <main>
+      <main className='Welcome_Content'>
         <div className='Welcome__Used_Web_Tech'>
           <h3>Web technologies Ive used:</h3>
           <ul>
@@ -40,7 +41,7 @@ const WelcomePage = () => {
       </main>
       <footer>
         <p>Enter my website to see my projects :</p>
-        <Link to='/login'>Enter</Link>
+        <Link to='/login' className='link'>Enter</Link>
       </footer>
     </div>
   )

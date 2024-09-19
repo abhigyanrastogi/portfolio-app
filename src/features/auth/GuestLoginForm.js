@@ -1,34 +1,14 @@
 import React from 'react'
+import { GuestLoginEvent } from './scripts/LoginEvent'
+import { useNavigate } from 'react-router-dom'
 
 const GuestLoginForm = ({ setShowPage }) => {
-
-    const onLoginFormSubmit = (event) => {
-        event.preventDefault();
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:3501/users");
-        xhr.setRequestHeader('Content-type', 'application/json');
-        const userAuthObject = {
-            "username": event.target.username.value,
-            "roles": ["Guest"]
-        }
-        console.log(JSON.stringify(userAuthObject));
-        xhr.send(JSON.stringify(userAuthObject));
-        xhr.onload = (event) => {
-            const authStatus = JSON.parse(xhr.response).message;
-            if(authStatus === "Authenticated") {
-                //proceed to GUEST DASH
-                alert(authStatus);
-            } else {
-                alert(authStatus);
-            }
-        }
-    }
-
-  return (
+    const navigate = useNavigate();
+    return (
     <>
         <form 
             className='Login__form'
-            onSubmit={(event) => onLoginFormSubmit(event)}
+            onSubmit={(event) => event.preventDefault()}
         >
             <label
                 className='Login__form__label Login__form__item'
@@ -42,6 +22,7 @@ const GuestLoginForm = ({ setShowPage }) => {
             <input
                 className='Login__form__loginButton Login__form__item'
                 type='submit'
+                onClick={(event)=>GuestLoginEvent(event, navigate)}
                 value='Log in'
             ></input>
         </form>
@@ -50,7 +31,7 @@ const GuestLoginForm = ({ setShowPage }) => {
             onClick={()=>setShowPage('LoginPage')}
         >Back</button>
     </>
-  )
+    )
 }
 
 export default GuestLoginForm
