@@ -1,0 +1,97 @@
+/* ENTIRE PAGE */
+.Dash_Invalid {
+    background-color: #ff3322;
+    height: 100vh;
+    width: 100vw;
+}
+.Dash {
+    height: 100vh;
+    width: 100vw;
+    background-color: #e8c780;
+    overflow: auto;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+:is(.Dash_Invalid, .Dash) :is(h1, h2) {
+    margin-top: 0;
+}
+
+/* HEADER AND FOOTER */
+.Dash :is(header, footer) {
+    border: white 5px solid;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 5px;
+    grid-column: 1/3;
+}
+.Dash :is(header, footer) :is(h1, h2, a) {
+    width: fit-content;
+    margin: auto;
+    display: block;
+}
+.Dash footer {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.Dash footer a {
+    text-decoration: none;
+    color: black;
+}
+.Dash footer a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+/* MAIN */
+.Dash main {
+    width: 100vw;
+    display: flex;
+    overflow: auto;
+    flex-direction: row;
+}
+.Dash main .Dash__Profile--container {
+    display: flex;
+    flex: 1;
+}
+.Dash main .Dash__Content--container {
+    display: flex;
+    flex: 3;
+}
+
+/* PROFILE AND CONTENT */
+.Dash__Profile, .Dash__Content {
+    border: white 5px solid;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex: 1;
+}
+.Dash__Profile {
+    margin-left: 10px;
+    margin-right: 5px;
+}
+.Dash__Content {
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+/* Profile */
+.Dash__Profile .Dash__View_Profile {
+    flex-direction: column;
+}
+.Dash__Profile .Dash__View_Profile :is(.ProfilePicture, .EditProfile) {
+    width: fit-content;
+    margin: auto;
+}
+.Dash__Profile :is(.Dash__Comment_History, .Dash__Post_History, .Dash__Project_History) {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Content */
+.Dash__Content :is(.Dash__Browse_Projects, .Dash__Browse_Posts)  {
+    display: flex;
+    flex-direction: column;
+}

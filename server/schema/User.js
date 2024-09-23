@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
+    // TODO: have a field for posts created
     username: {
         type: String,
         required: true

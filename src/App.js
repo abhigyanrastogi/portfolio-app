@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Login from './features/auth/Login';
-import Dash from './components/Dash';
+import Dash from './components/Dash/Dash';
 import WelcomePage from './components/WelcomePage';
 
 function App() {

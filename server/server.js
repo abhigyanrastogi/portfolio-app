@@ -19,7 +19,11 @@ app.use(cors(corsOptions))
 
 app.use(express.json())
 
+app.use('/login', require('./routes/loginRoutes.js'))
+
 app.use('/users', require('./routes/userRoutes.js'))
+
+app.use('/posts', require('./routes/postRoutes.js'))
 
 app.use(errorHandler)
 

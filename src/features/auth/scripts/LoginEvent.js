@@ -17,7 +17,7 @@ const GuestLoginEvent = (event, navigate) => {
         const res = JSON.parse(xhr.response);
         alert(res.message);
         if(res.status === 'Accepted') {
-            navigate('/dash', { state: { username: userObject.username } });
+            navigate('/dash', { state: userObject });
         }
     };
 }
@@ -42,8 +42,7 @@ const LoginEvent = (event, navigate) => {
         const res = JSON.parse(xhr.response);
         alert(res.message);
         if(res.status === 'Accepted') {
-            console.log("logging in...");
-            navigate('/dash', { state: { username: userObject.username } });
+            navigate('/dash', { state: { username: userObject.username, roles: userObject.roles } });
         }
     };
 }

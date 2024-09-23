@@ -22,17 +22,17 @@
       - [ ] viewing comments 
   - [ ] Google sign in API
 - [ ] Dashboard
-  - [ ] Profile display
-  - [ ] Comment History
-  - [ ] Post History
+  - [X] Profile display
+  - [X] Comment History
+  - [X] Post History
   - [ ] Project Interaction saved states
   - [ ] Search bar
-  - [ ] Browse Projects
-  - [ ] Browse Posts
+  - [X] Browse Projects
+  - [X] Browse Posts
 - [ ] Posts
   - [ ] Comments
   - [ ] Views counter
-  - [ ] Content
+  - [ ] Content (links to data on the server, not stored directly on mongodb)
     - [ ] Text
     - [ ] Image
     - [ ] Video

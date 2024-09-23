@@ -1,17 +1,8 @@
 const User = require('../schema/User');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
+const makeResponse = require('./makeResponse');
 const salt = 10;
-
-const makeResponse = (res, message, status, data=null) => {
-    const payload = {
-        message: message,
-        status: `${status?'Accepted':'Denied'}`,
-        data: data
-    }
-    res.status(200).json(payload);
-    return res;
-}
 
 // @desc get all users
 // @route GET /users
@@ -28,6 +19,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // @route POST /users
 // access Public
 const createNewUser = asyncHandler(async (req, res) => {
+    // TODO: have a field for posts made
     const { username, password, roles } = req.body;
     if(!Array.isArray(roles) || !roles.length) {
         return makeResponse(res, "Need Roles as array of string", false);
@@ -81,6 +73,7 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @route PATCH /users
 // access Private
 const updateUser = asyncHandler(async (req, res) => {
+    //TODO: update password should have more security
     const { id, username, roles, password } = req.body;
 
     if(!id || !username || !password || !Array.isArray(roles) || !roles.length) {
